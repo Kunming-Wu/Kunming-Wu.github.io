@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="IGNNK">
-  <rect width="640" height="360" fill="#f2f5fa"/>
-  <g stroke="#334052" fill="none">
-    <rect x="40" y="60" width="200" height="140" rx="10"/>
-    <rect x="400" y="160" width="200" height="140" rx="10"/>
-    <path d="M240 130 C300 140 340 160 400 210" stroke="#2c6bed" stroke-width="3"/>
-  </g>
-  <text x="24" y="30" font-family="Segoe UI, Roboto, Arial" font-size="18" fill="#334052">Inductive GNN for Kriging</text>
-</svg>

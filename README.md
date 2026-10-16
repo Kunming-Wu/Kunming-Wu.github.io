@@ -1,44 +1,63 @@
-# Professor Homepage (Static)
+# wkmallmx.github.io
 
-An elegant, minimal academic homepage for a Computer Science professor. Includes:
+Personal homepage of **Wu Kunming (吴坤明)** — M.S. student in Computer Science at Sichuan University.
 
-- English-only design, academic style
-- Sections: About, Selected Publications, Projects, Students, Contact
-- Dedicated students directory and a redirect list for student homepages
-- Responsive, accessible layout with dark academic theme
+Live at **https://wkmallmx.github.io**
 
-## Structure
+## What's here
 
-- `index.html` — main professor homepage
-- `students.html` — full student roster (PhD/M.S., current and alumni)
-- `students-redirects.html` — maintains slug→URL mapping for student personal pages and performs client-side redirects
-- `teaching.html` — teaching page with current and past courses
-- `talks.html` — invited talks and presentations
-- `cv.html` — CV page embedding a local `assets/pdf/cv.pdf`
-- `assets/css/styles.css` — sitewide styles
-- `assets/img/` — SVG images (favicon, professor illustration, avatars)
-- `assets/pdf/` — put your `cv.pdf` here
+A single hand-written static page. No build step, no framework, no dependencies.
 
-## Customize
-
-- Replace text content directly in the HTML files.
-- Update student links in `students-redirects.html` (the `mapping` object).
-- Replace SVGs in `assets/img/` with your own images (keep file names or update HTML references accordingly).
-
-## Preview locally (Windows, cmd)
-
-You can open `index.html` directly in a browser, or run a tiny server for cleaner relative links.
-
-Optional: using Python (already on many systems):
-
-```cmd
-python -m http.server 8000
+```
+index.html              the entire site (markup + CSS + a little JS)
+assets/img/avatar.jpg   portrait
+assets/img/favicon.svg  site icon
+assets/img/logos/       company logos used in the experience section
 ```
 
-Then open: http://localhost:8000/index.html
+## Features
 
-## Notes
+- **Bilingual** — Chinese and English, toggled with the `EN` / `中文` button in the header.
+  Every translatable element carries a `class="zh"` or `class="en"`; CSS shows one and
+  hides the other based on `data-lang` on `<html>`.
+- **Light / dark theme** — toggled in the header, follows the OS preference on a first visit.
+- **Responsive** — single column below 760px; the nav collapses.
+- Fully keyboard accessible and respects `prefers-reduced-motion`.
 
-- All links to external student pages are placeholders; update them to real URLs.
-- The site uses no frameworks and works on any static host (GitHub Pages, university servers, etc.).
- - Light theme is enabled by default; customize colors in `:root` CSS variables.
+Both preferences persist in `localStorage`.
+
+## Editing
+
+Open `index.html` and change the text. Content is organised top-to-bottom in the order it
+renders:
+
+| Section | Anchor |
+| --- | --- |
+| About | `#about` |
+| Education | `#education` |
+| Publications | `#publications` |
+| Experience | `#experience` |
+| Projects | `#projects` |
+| Honors & Skills | `#honors` |
+| Contact | `#contact` |
+
+Colours and spacing live in the `:root` block at the top of the `<style>` element — edit the
+custom properties there rather than the rules below them.
+
+When you add a bilingual paragraph, add both versions side by side:
+
+```html
+<span class="zh">中文版本</span>
+<span class="en">English version</span>
+```
+
+## Deploying
+
+GitHub Pages serves this repository's `main` branch directly — commit and push, and the site
+updates in about a minute.
+
+```bash
+git add -A
+git commit -m "Update homepage"
+git push
+```

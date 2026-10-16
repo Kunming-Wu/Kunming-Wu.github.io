@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="MSGNet">
-  <rect width="640" height="360" fill="#f2f5fa"/>
-  <g stroke="#2c6bed" fill="none">
-    <path d="M40 280 C120 200 200 240 280 180 C360 120 440 160 520 100" stroke-width="3"/>
-    <path d="M40 240 C120 180 200 220 280 160 C360 100 440 140 520 80" stroke="#2fb88f" stroke-width="3"/>
-  </g>
-  <text x="24" y="30" font-family="Segoe UI, Roboto, Arial" font-size="18" fill="#334052">Multi-Scale Inter-Series Correlations</text>
-</svg>

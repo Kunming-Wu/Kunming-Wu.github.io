@@ -1,316 +1,1060 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="zh-CN" data-lang="zh" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Prof. Avery Kim — Computer Science</title>
-    <meta name="description" content="Academic homepage of Prof. Avery Kim, Computer Science." />
+    <title>吴坤明 · Wu Kunming</title>
+    <meta name="description" content="吴坤明 (Wu Kunming) — 四川大学计算机科学与技术硕士生, 研究方向为 LLM Agent、Long-Horizon Reasoning 与 Multimodal Learning." />
+    <meta name="author" content="Wu Kunming" />
+    <meta property="og:title" content="吴坤明 · Wu Kunming" />
+    <meta property="og:description" content="M.S. Student in Computer Science at Sichuan University. LLM Agents, Long-Horizon Reasoning, Multimodal Learning." />
+    <meta property="og:type" content="profile" />
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="apple-touch-icon" href="assets/img/avatar.jpg" />
+    <style>
+      /* ---------------- Design tokens ---------------- */
+      :root {
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --surface-2: #f1f3f8;
+        --text: #171a21;
+        --text-soft: #4c5464;
+        --text-mute: #656e7f;
+        --line: #e3e7ef;
+        --line-strong: #cfd6e4;
+        --accent: #2f5bd7;
+        --accent-soft: #eaf0ff;
+        --accent-ink: #1e3f9e;
+        --gold: #b08324;
+        --gold-soft: #fdf5e3;
+        --shadow: 0 1px 2px rgba(18, 26, 45, 0.04), 0 8px 24px rgba(18, 26, 45, 0.06);
+        --shadow-lift: 0 2px 4px rgba(18, 26, 45, 0.06), 0 14px 36px rgba(18, 26, 45, 0.1);
+        --radius: 14px;
+        --radius-sm: 9px;
+        --maxw: 900px;
+        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+        --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, "Songti SC", "Noto Serif SC", serif;
+      }
+
+      html[data-theme="dark"] {
+        --bg: #10131a;
+        --surface: #171b24;
+        --surface-2: #1e2331;
+        --text: #eef1f7;
+        --text-soft: #b6bdcc;
+        --text-mute: #858e9f;
+        --line: #262d3b;
+        --line-strong: #333c4e;
+        --accent: #7ea3ff;
+        --accent-soft: #1b2740;
+        --accent-ink: #a9c0ff;
+        --gold: #e0b355;
+        --gold-soft: #2a2415;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+        --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.45), 0 14px 36px rgba(0, 0, 0, 0.4);
+      }
+
+      /* ---------------- Base ---------------- */
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        font-size: 15.5px;
+        line-height: 1.72;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+      h1, h2, h3, h4 { line-height: 1.3; margin: 0; font-weight: 650; letter-spacing: -0.012em; }
+
+      ul { margin: 0; padding-left: 1.15em; }
+      li { margin: 0.35em 0; }
+      li::marker { color: var(--text-mute); }
+
+      ::selection { background: var(--accent-soft); color: var(--accent-ink); }
+
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      /* Bilingual visibility */
+      html[data-lang="zh"] .en { display: none !important; }
+      html[data-lang="en"] .zh { display: none !important; }
+
+      /* ---------------- Layout ---------------- */
+      .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+      main { padding-bottom: 72px; }
+
+      section { margin-top: 60px; scroll-margin-top: 84px; }
+
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+        margin-bottom: 26px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .section-head h2 {
+        font-size: 1.35rem;
+        font-family: var(--font-serif);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+
+      .section-head .idx {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        color: var(--text-mute);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ---------------- Header ---------------- */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(14px) saturate(180%);
+        -webkit-backdrop-filter: blur(14px) saturate(180%);
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        height: 58px;
+      }
+
+      .brand {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text);
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+      .brand:hover { text-decoration: none; }
+      .brand .dot { color: var(--accent); }
+
+      .nav { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+
+      .nav a {
+        color: var(--text-soft);
+        font-size: 0.86rem;
+        font-weight: 500;
+        padding: 6px 10px;
+        border-radius: 7px;
+        transition: background 0.15s, color 0.15s;
+      }
+      .nav a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border: 1px solid var(--line-strong);
+        background: var(--surface);
+        color: var(--text-soft);
+        font: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 5px 11px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: border-color 0.15s, color 0.15s, background 0.15s;
+      }
+      .toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+      .toggle-group { display: flex; align-items: center; gap: 7px; }
+
+      /* ---------------- Hero ---------------- */
+      .hero {
+        display: flex;
+        align-items: flex-start;
+        gap: 32px;
+        padding: 52px 0 8px;
+      }
+
+      .avatar {
+        flex: 0 0 auto;
+        width: 132px;
+        height: 132px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--line-strong);
+        box-shadow: var(--shadow);
+        background: var(--surface-2);
+      }
+
+      .hero-body { flex: 1 1 auto; min-width: 0; }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: 2.1rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .hero h1 .latin {
+        display: block;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-mute);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 6px;
+      }
+
+      .hero-title {
+        margin-top: 14px;
+        font-size: 1rem;
+        color: var(--text-soft);
+      }
+
+      .hero-title strong { color: var(--text); font-weight: 600; }
+
+      .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+
+      .tag {
+        font-size: 0.76rem;
+        font-weight: 550;
+        letter-spacing: 0.01em;
+        padding: 3px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-ink);
+        border: 1px solid transparent;
+      }
+
+      .contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        margin-top: 20px;
+        font-size: 0.88rem;
+        color: var(--text-soft);
+      }
+
+      .contact a, .contact span.item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-soft);
+      }
+      .contact a:hover { color: var(--accent); }
+      .contact svg { width: 15px; height: 15px; flex: 0 0 auto; opacity: 0.75; }
+
+      /* ---------------- Cards ---------------- */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 20px 22px;
+        box-shadow: var(--shadow);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      }
+
+      .card + .card { margin-top: 14px; }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lift);
+        border-color: var(--line-strong);
+      }
+
+      .entry { margin-bottom: 14px; }
+
+      .entry-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .entry-title {
+        font-size: 1rem;
+        font-weight: 640;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+      }
+
+      .entry-sub {
+        font-size: 0.88rem;
+        color: var(--text-soft);
+        margin-top: 2px;
+      }
+
+      .date {
+        font-size: 0.8rem;
+        font-variant-numeric: tabular-nums;
+        color: var(--text-mute);
+        white-space: nowrap;
+        font-weight: 500;
+      }
+
+      .logo-plate {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        flex: 0 0 auto;
+      }
+      .logo-plate img { width: 18px; height: 18px; object-fit: contain; }
+
+      .role-head { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+      .role-head .meta { font-size: 0.85rem; color: var(--text-mute); }
+
+      .facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 22px;
+        margin-top: 8px;
+        font-size: 0.88rem;
+        color: var(--text-soft);
+      }
+      .facts b { color: var(--text); font-weight: 600; }
+
+      ul.plain { list-style: none; padding-left: 0; margin-top: 12px; }
+      ul.plain > li {
+        position: relative;
+        padding-left: 18px;
+        color: var(--text-soft);
+      }
+      ul.plain > li::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 0.72em;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--line-strong);
+      }
+      ul.plain > li strong { color: var(--text); font-weight: 620; }
+
+      /* ---------------- Publications ---------------- */
+      .pub-group + .pub-group { margin-top: 34px; }
+
+      .group-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.79rem;
+        font-weight: 650;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-mute);
+        margin-bottom: 14px;
+      }
+
+      .group-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+
+      .dots { display: inline-flex; gap: 4px; }
+      .dots i {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--accent);
+        opacity: 0.85;
+      }
+      .dots.dim i { background: var(--gold); }
+
+      ol.pubs { list-style: none; padding: 0; margin: 0; counter-reset: pub; }
+
+      ol.pubs > li {
+        counter-increment: pub;
+        position: relative;
+        padding: 13px 0 13px 40px;
+        border-top: 1px solid var(--line);
+      }
+      ol.pubs > li:first-child { border-top: none; padding-top: 2px; }
+      ol.pubs > li::before {
+        content: "[" counter(pub, decimal-leading-zero) "]";
+        position: absolute;
+        left: 0;
+        top: 13px;
+        font-size: 0.76rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        color: var(--text-mute);
+      }
+      ol.pubs > li:first-child::before { top: 2px; }
+
+      .pub-title { font-weight: 600; color: var(--text); }
+
+      .pub-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px 10px;
+        margin-top: 5px;
+        font-size: 0.84rem;
+        color: var(--text-soft);
+      }
+
+      .venue { font-style: italic; }
+
+      .badge {
+        font-size: 0.71rem;
+        font-weight: 650;
+        letter-spacing: 0.02em;
+        padding: 2px 8px;
+        border-radius: 5px;
+        white-space: nowrap;
+      }
+
+      .badge.first { background: var(--accent-soft); color: var(--accent-ink); }
+      .badge.co { background: var(--gold-soft); color: var(--gold); }
+      .badge.n { background: var(--surface-2); color: var(--text-mute); }
+
+      /* ---------------- Awards ---------------- */
+      .award {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 11px 0;
+        border-top: 1px solid var(--line);
+      }
+      .award:first-child { border-top: none; padding-top: 2px; }
+      .award-name { color: var(--text-soft); }
+      .award-name strong { color: var(--text); font-weight: 600; }
+
+      /* ---------------- Skills ---------------- */
+      .skill-row {
+        display: flex;
+        gap: 14px;
+        padding: 11px 0;
+        border-top: 1px solid var(--line);
+        align-items: baseline;
+      }
+      .skill-row:first-child { border-top: none; padding-top: 2px; }
+      .skill-key {
+        flex: 0 0 130px;
+        font-size: 0.85rem;
+        font-weight: 620;
+        color: var(--text);
+      }
+      .skill-val { color: var(--text-soft); font-size: 0.9rem; }
+
+      /* ---------------- Footer ---------------- */
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 26px 0 40px;
+        font-size: 0.83rem;
+        color: var(--text-mute);
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .footer-links { display: flex; gap: 16px; }
+
+      /* ---------------- Responsive ---------------- */
+      @media (max-width: 760px) {
+        .nav { display: none; }
+        .hero { flex-direction: column; gap: 22px; padding-top: 36px; }
+        .avatar { width: 104px; height: 104px; }
+        .hero h1 { font-size: 1.75rem; }
+        .section-head h2 { font-size: 1.18rem; }
+        .skill-row { flex-direction: column; gap: 3px; }
+        .skill-key { flex: none; }
+        section { margin-top: 46px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
+        html { scroll-behavior: auto; }
+      }
+
+      @media print {
+        .site-header, .toggle-group { display: none !important; }
+        .card { box-shadow: none; border-color: #ccc; }
+        body { background: #fff; }
+      }
+    </style>
   </head>
+
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip" href="#about" style="position:absolute;left:-9999px">Skip to content</a>
+
     <header class="site-header">
-      <div class="container header-inner">
-        <a class="brand" href="./" aria-label="Homepage">
-          <span class="logo" aria-hidden="true">{YW}</span>
-          <span class="brand-text">Prof. Yuankai Wu</span>
-        </a>
-        <nav class="nav" aria-label="Primary">
-          <a href="#about">About</a>
-          <a href="#publications">Publications</a>
-          <a href="#projects">Projects</a>
-          <a href="students.html">Students</a>
-          <a href="teaching.html">Teaching</a>
-          <a href="talks.html">Talks</a>
-          <a href="cv.html">CV</a>
-          <a href="#contact">Contact</a>
+      <div class="wrap header-inner">
+        <a class="brand" href="#top">吴坤明<span class="dot">.</span></a>
+
+        <nav class="nav" aria-label="Section navigation">
+          <a href="#about"><span class="zh">关于</span><span class="en">About</span></a>
+          <a href="#education"><span class="zh">教育</span><span class="en">Education</span></a>
+          <a href="#publications"><span class="zh">论文</span><span class="en">Publications</span></a>
+          <a href="#experience"><span class="zh">实习</span><span class="en">Experience</span></a>
+          <a href="#projects"><span class="zh">项目</span><span class="en">Projects</span></a>
+          <a href="#honors"><span class="zh">荣誉</span><span class="en">Honors</span></a>
+          <a href="#contact"><span class="zh">联系</span><span class="en">Contact</span></a>
         </nav>
+
+        <div class="toggle-group">
+          <button class="toggle" id="langBtn" type="button" aria-label="Switch language">
+            <span class="zh">EN</span><span class="en">中文</span>
+          </button>
+          <button class="toggle" id="themeBtn" type="button" aria-label="Toggle color theme">
+            <span class="zh">夜间</span><span class="en">Dark</span>
+          </button>
+        </div>
       </div>
     </header>
 
-    <main id="main">
-      <section class="hero">
-        <div class="container hero-inner">
-          <div class="hero-copy">
-            <h1>Prof. Yuankai Wu</h1>
-            <p class="subtitle">Professor • College of Computer Science • Sichuan University</p>
-            <p class="lede">
-              I develop intelligent solutions using data-driven approaches and machine learning, with emphasis
-              on deep learning, spatiotemporal data analysis, and intelligent decision-making and control.
-            </p>
-            <div class="cta-row">
-              <a class="btn primary" href="#publications">Selected Publications</a>
-              <a class="btn ghost" href="students.html">Students</a>
+    <main id="top">
+      <!-- ============ Hero ============ -->
+      <div class="wrap hero">
+        <img class="avatar" src="assets/img/avatar.jpg" alt="吴坤明 Wu Kunming" width="132" height="132" />
+
+        <div class="hero-body">
+          <h1>
+            <span class="zh">吴坤明</span><span class="en">Wu Kunming</span>
+            <span class="latin zh">Wu Kunming</span>
+          </h1>
+
+          <p class="hero-title">
+            <span class="zh">
+              <strong>四川大学</strong> · 计算机科学与技术 · 硕士研究生（推免）
+            </span>
+            <span class="en">
+              M.S. Student in <strong>Computer Science</strong>, Sichuan University
+            </span>
+          </p>
+
+          <div class="tags">
+            <span class="tag">LLM Agent</span>
+            <span class="tag">Long-Horizon Reasoning</span>
+            <span class="tag">Multimodal Learning</span>
+            <span class="tag">RAG</span>
+            <span class="tag">Reinforcement Learning</span>
+          </div>
+
+          <div class="contact" id="contact">
+            <a href="mailto:2197639171@qq.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
+              2197639171@qq.com
+            </a>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7 2 2 0 016.5 3.5z" />
+              </svg>
+              183 0898 4397
+            </span>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M4 6.5a8 8 0 0116 0v6a8 8 0 01-8 8 7.9 7.9 0 01-3.2-.7L5 21l1.2-3A8 8 0 014 12.5v-6z" />
+                <circle cx="9" cy="10.5" r=".9" fill="currentColor" />
+                <circle cx="15" cy="10.5" r=".9" fill="currentColor" />
+              </svg>
+              wkm_scu-
+            </span>
+            <a href="https://github.com/wkmallmx" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2a10 10 0 00-3.16 19.5c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" />
+              </svg>
+              github.com/wkmallmx
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ About ============ -->
+      <section class="wrap" id="about">
+        <div class="section-head">
+          <span class="idx">01</span>
+          <h2><span class="zh">个人概述</span><span class="en">About</span></h2>
+        </div>
+
+        <div class="card">
+          <p style="margin:0">
+            <span class="zh">
+              对 LLM 有一定的独到 Insights，有一定 Research 能力和学术 Taste，可深度参与或独立推进 LLM 相关研究；
+              熟悉 Prompt Engineering、AI Agent、RAG 等技术，结合一线算法与产品实习经历，
+              擅长结合业务推动 AI 技术选型、落地和优化。目前主要关注
+              <b>LLM Agent</b>、<b>Long-Horizon 任务</b>、<b>Reasoning</b> 与 <b>Multimodal Learning</b> 方向。
+            </span>
+            <span class="en">
+              I work on large language models — in particular <b>LLM agents</b>,
+              <b>long-horizon reasoning</b>, and <b>multimodal learning</b>. I enjoy both
+              research and engineering: I have built and evaluated agent frameworks,
+              prompt-engineering and RAG pipelines, and have shipped AI features inside
+              industrial and product teams. I am comfortable driving a research direction
+              independently, as well as turning it into something a real user can touch.
+            </span>
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ Education ============ -->
+      <section class="wrap" id="education">
+        <div class="section-head">
+          <span class="idx">02</span>
+          <h2><span class="zh">教育经历</span><span class="en">Education</span></h2>
+        </div>
+
+        <div class="card">
+          <div class="entry">
+            <div class="entry-head">
+              <div>
+                <div class="entry-title">
+                  <span class="zh">四川大学 · 计算机科学与技术（硕士 · 推免）</span>
+                  <span class="en">Sichuan University · M.S. in Computer Science</span>
+                </div>
+                <div class="entry-sub">
+                  <span class="zh">推免录取 · 主要方向：LLM（Agent / Long Horizon / Reasoning）、Multimodal Learning</span>
+                  <span class="en">Admitted via recommendation · Focus: LLM (Agents / Long Horizon / Reasoning), Multimodal Learning</span>
+                </div>
+              </div>
+              <span class="date">2025.09 – 2028.06</span>
+            </div>
+            <div class="facts">
+              <span><b>GPA</b> 3.93 / 4.0 (90 / 100)<span class="zh">，前 10%</span><span class="en">, top 10%</span></span>
             </div>
           </div>
-          <div class="hero-media">
-            <img src="assets/img/professor.jpg" alt="Portrait of Prof. Yuankai Wu" />
-            <div class="icon-links" aria-label="External profiles">
-              <a href="https://scholar.google.com/citations?user=L9b-8ZwAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" title="Google Scholar">
-                <img src="assets/img/icon-scholar.svg" alt="Google Scholar" />
-              </a>
-              <a href="https://github.com/Kaimaoge" target="_blank" rel="noopener noreferrer" title="GitHub">
-                <img src="assets/img/icon-github.svg" alt="GitHub" />
-              </a>
+
+          <div class="entry" style="margin-bottom:0; padding-top:18px; border-top:1px solid var(--line)">
+            <div class="entry-head">
+              <div>
+                <div class="entry-title">
+                  <span class="zh">四川大学 · 软件工程（本科）</span>
+                  <span class="en">Sichuan University · B.Eng. in Software Engineering</span>
+                </div>
+              </div>
+              <span class="date">2021.09 – 2025.06</span>
+            </div>
+            <div class="facts">
+              <span><b><span class="zh">综测</span><span class="en">Overall</span></b> 90.25 / 100<span class="zh">，前 9%</span><span class="en">, top 9%</span></span>
+              <span><b>GPA</b> 3.69 / 4.0 (88.3 / 100)<span class="zh">，前 20%</span><span class="en">, top 20%</span></span>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="about" class="section">
-        <div class="container flow">
-          <h2>About</h2>
-          <p>
-            I'm a Tenure-Track Professor (position equivalent to full professor) at the College of Computer
-            Science, Sichuan University. My primary focus is on developing intelligent solutions using data-driven
-            approaches and machine learning. Previously, I was an IVADO postdoctoral fellow at McGill University.
-            I completed my Ph.D. at Beijing Institute of Technology.
-          </p>
-          <p>
-            My research interests include deep learning, spatiotemporal data analysis, intelligent decision making and control,
-            and applications across air traffic management and intelligent transportation systems. My publications have
-            received 4000+ citations on Google Scholar.
-          </p>
-          <ul class="meta">
-            <li><strong>Affiliation:</strong> College of Computer Science, Sichuan University</li>
-            <li><strong>Location:</strong> Chengdu, Sichuan, China</li>
-            <li><strong>Email:</strong> wuyk0@scu.edu.cn</li>
-          </ul>
-          <h3>Research Interests</h3>
-          <ul class="tags">
-            <li>Machine Learning</li>
-            <li>Deep Learning</li>
-            <li>Spatiotemporal Modeling</li>
-            <li>Intelligent Transportation</li>
-            <li>Air Traffic Management</li>
-            <li>Data Science</li>
-            <li>Reinforcement Learning</li>
-          </ul>
+      <!-- ============ Publications ============ -->
+      <section class="wrap" id="publications">
+        <div class="section-head">
+          <span class="idx">03</span>
+          <h2><span class="zh">学术产出</span><span class="en">Publications</span></h2>
         </div>
-      </section>
 
-      <section id="update" class="section section-alt">
-        <div class="container flow">
-          <h2>Personal Update</h2>
-          <p>
-            I am recruiting Ph.D. and MSE students for Fall 2026 in: (1) Machine Learning and Data Science,
-            (2) Algorithms for air traffic management and intelligent transportation systems, (3) Spatiotemporal data modeling.
-            If you are interested, please take a look and contact me.
-          </p>
-        </div>
-      </section>
+        <!-- Published -->
+        <div class="pub-group">
+          <div class="group-label">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="zh">已录用 / 发表</span><span class="en">Published &amp; Accepted</span>
+          </div>
 
-      <section id="news" class="section">
-        <div class="container flow">
-          <h2>Selected News</h2>
-          <ul class="pub-list">
+          <ol class="pubs">
             <li>
-              <span class="pub-title">Selected among Stanford/Elsevier's Top 2% Scientists for 2023</span>
-              <span class="pub-venue">September 2024 • Ranked top 1% by performance for 2023.</span>
-            </li>
-            <li>
-              <span class="pub-title">First cohort of the National Program for Recruiting Overseas Postdoctoral Talents</span>
-              <span class="pub-venue">March 2024</span>
-            </li>
-            <li>
-              <span class="pub-title">Promoted to IEEE Senior Member</span>
-              <span class="pub-venue">October 2023</span>
-            </li>
-            <li>
-              <span class="pub-title">Awarded Tianfu Emei plan of Sichuan Province</span>
-              <span class="pub-venue">April 2023</span>
-            </li>
-            <li>
-              <span class="pub-title">2022 IEEE TII Outstanding Paper Award</span>
-              <span class="pub-venue">August 2022</span>
-            </li>
-            <li>
-              <span class="pub-title">Tenure-track professor at Sichuan University (level equivalent to full professor)</span>
-              <span class="pub-venue">March 2022</span>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="publications" class="section section-alt">
-        <div class="container flow">
-          <h2>Selected Publications</h2>
-          <ol class="pub-list">
-            <li class="pub-item">
-              <img class="pub-thumb" src="assets/img/pubs/airport-diffusion.svg" alt="Airport network diffusion forecasting" />
-              <div>
-                <span class="pub-title">Long-Term Airport Network Performance Forecasting With Linear Diffusion Graph Networks</span>
-                <span class="pub-authors"><strong>Yuankai Wu</strong>, Jing Yang, Xiaoxu Chen, Yi Lin, Hongyu Yang</span>
-                <span class="pub-venue">IEEE Transactions on Intelligent Transportation Systems, 2024.</span>
-                <p class="pub-summary">We propose a linear diffusion-based graph network to capture long-horizon spatial propagation for airport network performance, achieving accurate delay forecasting with efficient training.</p>
+              <div class="pub-title">GeoGR²: Zero-Shot Geospatial Inference via Geostatistically-Guided Iterative Refinement with LLMs</div>
+              <div class="pub-meta">
+                <span class="badge co"><span class="zh">共同一作</span><span class="en">Co-first author</span></span>
+                <span class="venue">EMNLP Findings</span>
+                <span class="badge n">CCF-B</span>
+                <span class="date">2026</span>
               </div>
             </li>
-            <li class="pub-item">
-              <img class="pub-thumb" src="assets/img/pubs/msgnet.svg" alt="MSGNet multiscale series correlations" />
-              <div>
-                <span class="pub-title">MSGNet: Learning Multi-Scale Inter-Series Correlations for Multivariate Time Series Forecasting</span>
-                <span class="pub-authors">Cai Wanlin, Yuxuan Liang, Xianggen Liu, Jianshuai Feng, <strong>Yuankai Wu*</strong></span>
-                <span class="pub-venue">Proceedings of the AAAI Conference on Artificial Intelligence, 2024.</span>
-                <p class="pub-summary">A multiscale architecture that learns cross-series correlations to improve multivariate forecasting across diverse horizons and datasets.</p>
+            <li>
+              <div class="pub-title">Beyond Static Fusion: Instance-Adaptive Confidence Reallocation for Multimodal Emotion Recognition</div>
+              <div class="pub-meta">
+                <span class="badge first"><span class="zh">第一作者</span><span class="en">First author</span></span>
+                <span class="venue">IEEE Signal Processing Letters</span>
+                <span class="badge n">JCR Q2</span>
+                <span class="date">2026</span>
               </div>
             </li>
-            <li class="pub-item">
-              <img class="pub-thumb" src="assets/img/pubs/flight-delay.svg" alt="Flight delay spatiotemporal propagation" />
-              <div>
-                <span class="pub-title">Spatiotemporal Propagation Learning for Network-Wide Flight Delay Prediction</span>
-                <span class="pub-authors"><strong>Yuankai Wu</strong>, Hongyu Yang, Yi Lin, Hong Liu</span>
-                <span class="pub-venue">IEEE Transactions on Knowledge and Data Engineering, 2023.</span>
-                <p class="pub-summary">A propagation-aware modeling framework that learns how delays spread across the air network, enabling accurate system-wide predictions.</p>
+            <li>
+              <div class="pub-title">Bridging the Capacity Gap: Asymmetric Realignment for Robust Multimodal Learning</div>
+              <div class="pub-meta">
+                <span class="badge n"><span class="zh">第四作者</span><span class="en">Fourth author</span></span>
+                <span class="venue">Neurocomputing</span>
+                <span class="badge n">JCR Q1 · <span class="zh">中科院二区 Top</span><span class="en">CAS Tier-2 Top</span></span>
+                <span class="date">2026</span>
               </div>
             </li>
-            <li class="pub-item">
-              <img class="pub-thumb" src="assets/img/pubs/ignnk.svg" alt="IGNNK spatiotemporal kriging" />
-              <div>
-                <span class="pub-title">Inductive Graph Neural Networks for Spatiotemporal Kriging</span>
-                <span class="pub-authors"><strong>Yuankai Wu</strong>, Dingyi Zhuang, Aurelie Labbe, Lijun Sun</span>
-                <span class="pub-venue">Proceedings of the AAAI Conference on Artificial Intelligence, 2021.</span>
-                <p class="pub-summary">Introduces an inductive GNN for kriging that generalizes to unseen nodes and times, improving imputation on sparse spatiotemporal data.</p>
+            <li>
+              <div class="pub-title">Link-R1: Tool-Integrated Reinforcement Learning for Schema Linking in Enterprise Text-to-SQL</div>
+              <div class="pub-meta">
+                <span class="badge n"><span class="zh">第二作者</span><span class="en">Second author</span></span>
+                <span class="venue">ICONIP</span>
+                <span class="badge n">CCF-C</span>
+                <span class="date">2026</span>
               </div>
             </li>
-            <li class="pub-item">
-              <img class="pub-thumb" src="assets/img/pubs/climate-sr.svg" alt="Climate super-resolution emulator" />
-              <div>
-                <span class="pub-title">Deep Learning‐Based Super‐Resolution Climate Simulator‐Emulator Framework for Urban Heat Studies</span>
-                <span class="pub-authors"><strong>Yuankai Wu</strong>, Bernardo Teufel, Laxmi Sushama, Stephane Belair, Lijun Sun</span>
-                <span class="pub-venue">Geophysical Research Letters, 2021.</span>
-                <p class="pub-summary">A deep super-resolution pipeline that emulates high-resolution climate fields for urban heat analysis at reduced computational cost.</p>
+            <li>
+              <div class="pub-title">
+                <span class="zh">另有 4 篇二作 CCF-C 类会议论文录用（含 ICONIP、PRICAI、IJCNN）</span>
+                <span class="en">4 further CCF-C papers as second author (ICONIP, PRICAI, IJCNN)</span>
               </div>
-            </li>
-            <li class="pub-item">
-              <img class="pub-thumb" src="assets/img/pubs/urban-mobility.svg" alt="Urban mobility disentangled representation" />
-              <div>
-                <span class="pub-title">Understanding and modeling urban mobility dynamics via disentangled representation learning</span>
-                <span class="pub-authors">Hailong Zhang, <strong>Yuankai Wu*</strong>, Huachun Tan, Hanxuan Dong, Fan Ding, Bin Ran</span>
-                <span class="pub-venue">IEEE Transactions on Intelligent Transportation Systems, 2020.</span>
-                <p class="pub-summary">A disentanglement approach that separates external factors and intrinsic patterns to model urban mobility dynamics more robustly.</p>
+              <div class="pub-meta">
+                <span class="zh">研究方向涵盖 Long-Horizon Reasoning、LLM Text-to-SQL、小样本目标检测等，均系协助导师指导本科生团队完成。</span>
+                <span class="en">Covering long-horizon reasoning, LLM Text-to-SQL, and few-shot object detection — completed while mentoring undergraduate teams.</span>
               </div>
             </li>
           </ol>
         </div>
-      </section>
 
-      <section id="projects" class="section">
-        <div class="container flow">
-          <h2>Projects</h2>
-          <p>My goal is to: (1) develop supervised and unsupervised ML tools for spatial and temporal dependencies, (2) make reliable predictions over space and time, (3) establish multi-agent and multi-objective RL algorithms, and (4) achieve system-level control. Applications include spatiotemporal kriging, traffic forecasting, freeway management, and HEV energy management.</p>
-
-          <h3>Research Projects</h3>
-          <div class="grid projects">
-            <article class="card">
-              <img class="card-thumb" src="assets/img/projects/ignnk.svg" alt="IGNNK: inductive GNN for spatiotemporal kriging" />
-              <h3>IGNNK</h3>
-              <p>Inductive Graph Neural Networks for Spatiotemporal Kriging enabling generalization to unseen sensors and timestamps for robust imputation.</p>
-              <p class="meta"><a href="#">Code</a></p>
-            </article>
-            <article class="card">
-              <img class="card-thumb" src="assets/img/projects/drl-energy.svg" alt="Deep RL for energy management" />
-              <h3>DRL-Energy-Management</h3>
-              <p>Deep reinforcement learning based energy management for hybrid electric vehicles under real-world driving scenarios.</p>
-              <p class="meta"><a href="#">Code</a></p>
-            </article>
-            <article class="card">
-              <img class="card-thumb" src="assets/img/projects/msgnet.svg" alt="MSGNet multiscale forecasting" />
-              <h3>MSGNet</h3>
-              <p>Learning multi-scale inter-series correlations for accurate multivariate time series forecasting.</p>
-              <p class="meta"><a href="#">Code</a></p>
-            </article>
+        <!-- Under review -->
+        <div class="pub-group">
+          <div class="group-label">
+            <span class="dots dim"><i></i><i></i><i></i></span>
+            <span class="zh">在投 / 在审</span><span class="en">Under Review</span>
           </div>
 
-          <h3>Granted Research Funding (selected)</h3>
-          <ul class="pub-list">
+          <ol class="pubs">
             <li>
-              <span class="pub-title">Deep Spatio-Temporal Representation Techniques for Multi-Modal OD Flow</span>
-              <span class="pub-authors">PI: <strong>Yuankai Wu</strong> • National Natural Science Foundation of China • ￥300,000</span>
+              <div class="pub-title">MorphLatent: Training-Free Hybrid Latent Reasoning via Asymmetric Confidence Routing</div>
+              <div class="pub-meta">
+                <span class="badge first"><span class="zh">第一作者</span><span class="en">First author</span></span>
+                <span class="venue">NAACL</span>
+                <span class="date">2027</span>
+              </div>
             </li>
             <li>
-              <span class="pub-title">Prediction and Decision-Making Intelligence for Transportation Systems</span>
-              <span class="pub-authors">PI: <strong>Yuankai Wu</strong> • National Program for Recruiting Overseas Postdoctoral Talents • ￥900,000</span>
+              <div class="pub-title">TORCH: Making SLMs Effective Collaborators for LLMs in Long-Horizon Tasks</div>
+              <div class="pub-meta">
+                <span class="badge first"><span class="zh">第一作者</span><span class="en">First author</span></span>
+                <span class="venue">NAACL</span>
+                <span class="date">2027</span>
+              </div>
             </li>
             <li>
-              <span class="pub-title">Image Detection for Transmission Components via Spatial Scale Standardization</span>
-              <span class="pub-authors">Co-PI: <strong>Yuankai Wu</strong>, Xia Feng • State Grid Hebei Electric Power Research Institute • ￥900,000</span>
+              <div class="pub-title">Toward Self-Directed Optimization by Rethinking Multimodal Imbalanced Learning</div>
+              <div class="pub-meta">
+                <span class="badge co"><span class="zh">共同一作</span><span class="en">Co-first author</span></span>
+                <span class="venue">Information Fusion</span>
+                <span class="badge n"><span class="zh">中科院一区 Top</span><span class="en">CAS Tier-1 Top</span></span>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Patents -->
+        <div class="pub-group">
+          <div class="group-label">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="zh">专利与软件著作权</span><span class="en">Patents &amp; Copyrights</span>
+          </div>
+          <div class="card">
+            <div class="facts" style="margin-top:0">
+              <span><b><span class="zh">发明专利</span><span class="en">Patents</span></b> <span class="zh">获批 1 项，实质审查中 1 项</span><span class="en">1 granted, 1 under substantive examination</span></span>
+              <span><b><span class="zh">软件著作权</span><span class="en">Software copyrights</span></b> <span class="zh">获批 2 项，均为 LLM 相关</span><span class="en">2 granted, both LLM-related</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Experience ============ -->
+      <section class="wrap" id="experience">
+        <div class="section-head">
+          <span class="idx">04</span>
+          <h2><span class="zh">实习经历</span><span class="en">Experience</span></h2>
+        </div>
+
+        <!-- Huawei -->
+        <article class="card">
+          <div class="role-head">
+            <span class="logo-plate"><img src="assets/img/logos/huawei-color.svg" alt="Huawei" /></span>
+            <div>
+              <div class="entry-title">
+                <span class="zh">华为（深圳总部） · 诺亚方舟实验室</span>
+                <span class="en">Huawei (Shenzhen HQ) · Noah's Ark Lab</span>
+              </div>
+              <div class="meta">
+                <span class="zh">研究型算法实习生</span><span class="en">Research Algorithm Intern</span>
+              </div>
+            </div>
+            <span class="date" style="margin-left:auto">2026.07 – <span class="zh">至今</span><span class="en">Present</span></span>
+          </div>
+
+          <ul class="plain">
+            <li>
+              <span class="zh"><strong>Long Horizon Agent 优化（在做）：</strong>科研型工作，通过构建智能体化、可递归的上下文调度框架实现“小 context、大 workspace”模式，优化 LLM 的 Long Horizon 能力；并结合强化学习进行 Harness-native 后训练。</span>
+              <span class="en"><strong>Long-Horizon Agent optimization (ongoing):</strong> research work building an agentic, recursively composable context-scheduling framework toward a “small context, large workspace” regime, improving LLM long-horizon capability; paired with reinforcement learning for harness-native post-training.</span>
             </li>
             <li>
-              <span class="pub-title">Spatiotemporal Data-Driven Intelligent Transportation System Modeling</span>
-              <span class="pub-authors">PI: <strong>Yuankai Wu</strong> • Tianfu Emei plan of Sichuan Province • ￥500,000</span>
-            </li>
-            <li>
-              <span class="pub-title">Flight Delay Modeling and Prediction with Graph Neural Networks</span>
-              <span class="pub-authors">PI: <strong>Yuankai Wu</strong> • NSFC of Sichuan Province (Young Scientists Fund) • ￥100,000</span>
-            </li>
-            <li>
-              <span class="pub-title">Survey on Deep Learning for ITS</span>
-              <span class="pub-authors">PI: <strong>Yuankai Wu</strong>, Jianshuai Feng, Zhenxing Yao • China Association for Science and Technology (Young Talents Plan) • ￥50,000</span>
-            </li>
-            <li>
-              <span class="pub-title">Spatiotemporal Data-Driven Safe and Intelligent Air Traffic Management</span>
-              <span class="pub-authors">PI: <strong>Yuankai Wu</strong> • Start-up from Sichuan University • ￥1,000,000</span>
-            </li>
-            <li>
-              <span class="pub-title">Deep Spatiotemporal Modeling for Urban Traffic Data</span>
-              <span class="pub-authors">PI: <strong>Yuankai Wu</strong>; Supervisors: Lijun Sun, Aurélie Labbe • IVADO • $140,000</span>
+              <span class="zh"><strong>LLM for 昇腾算子生成 / 优化（在做）：</strong>半科研半业务预研型工作，搭建进化框架并使用 LLM evolve 模式进行 NPU 算子生成与优化。</span>
+              <span class="en"><strong>LLM for Ascend kernel generation &amp; optimization (ongoing):</strong> applied-research pre-study; built an evolutionary framework that uses an LLM-evolve loop to generate and optimize NPU kernels.</span>
             </li>
           </ul>
-        </div>
-      </section>
+        </article>
 
-      <section id="students" class="section section-alt">
-        <div class="container flow">
-          <h2>Students</h2>
-          <p>Our group includes Ph.D., M.S., and undergraduate students. See the full roster on the students page.</p>
-          <div class="grid students-preview">
-            <a class="student-card" href="students-redirects.html?to=wang-lei">
-              <img src="assets/img/avatar-wang-lei.svg" alt="Avatar of Wang Lei" />
-              <div>
-                <h3>Wang Lei</h3>
-                <p>Ph.D. (2021—) • Safe Reinforcement Learning, Urban Air Mobility</p>
+        <!-- Meituan -->
+        <article class="card">
+          <div class="role-head">
+            <span class="logo-plate"><img src="assets/img/logos/meituan-iconfont.svg" alt="Meituan" /></span>
+            <div>
+              <div class="entry-title">
+                <span class="zh">美团（成都） · 餐饮系统 CRM</span>
+                <span class="en">Meituan (Chengdu) · Restaurant CRM</span>
               </div>
-            </a>
-            <a class="student-card" href="students-redirects.html?to=yuan-xinyun">
-              <img src="assets/img/avatar-yuan-xinyun.svg" alt="Avatar of Yuan Xinyun" />
-              <div>
-                <h3>Yuan Xinyun</h3>
-                <p>M.S. (2022—) • Data-driven Flight Delay Modeling</p>
+              <div class="meta">
+                <span class="zh">产品经理实习生</span><span class="en">Product Manager Intern</span>
               </div>
-            </a>
-            <a class="student-card" href="students-redirects.html?to=cheng-jinguo">
-              <img src="assets/img/avatar-cheng-jinguo.svg" alt="Avatar of Cheng Jinguo" />
-              <div>
-                <h3>Cheng Jinguo</h3>
-                <p>M.S. (2023—) • Foundation Models for Spatiotemporal Data</p>
-              </div>
-            </a>
+            </div>
+            <span class="date" style="margin-left:auto">2025.03 – 2025.06</span>
           </div>
-          <p><a class="btn" href="students.html">See full student roster</a></p>
-        </div>
+
+          <ul class="plain">
+            <li>
+              <span class="zh"><strong>协同“BDM-AI 助手”从需求验证到 MVP 落地：</strong>通过一线跟进 BD 拎包调研，与 BDM / CM 沟通锚定核心场景，明确从早会作战计划场景入手；基于 NoCode 快速完成原型设计，协助 mentor 完成初步 PRD 并与一线业务确定可用性；协同算法与研发评估技术边界与 PD 消耗，选择传统算法为主 + LLM 辅助的模式，明确 MVP 功能范围和优先级并跟进迭代交付。</span>
+              <span class="en"><strong>Co-drove the “BDM AI Assistant” from need validation to MVP:</strong> shadowed BD field visits and aligned with BDM/CM on the core scenario (morning planning workflow); built rapid NoCode prototypes, helped draft the first PRD and validated usability with frontline staff; worked with algorithm and engineering teams on technical limits and productivity cost, converging on a “classical algorithms first, LLM-assisted” approach, then scoped MVP priority and followed through to delivery.</span>
+            </li>
+            <li>
+              <span class="zh"><strong>协助运营团队搭建 CKA 连锁品牌质量分层预估模型：</strong>结合业务执行现有经验与数仓数据基础多次迭代优化，完成模型训练并推动一线初步应用，分层预估准确率达 70+%，相比原有经验阈值分层历史回测准确率提升约 15%；深度调研公司内部 AI 平台能力，为后续 AI 产品化路径提供技术参考。</span>
+              <span class="en"><strong>Helped operations build a quality-tier prediction model for CKA chain brands:</strong> iterated on domain heuristics plus warehouse data, trained and piloted the model with frontline teams — tier-prediction accuracy reached 70%+, roughly a 15% backtest gain over the prior experience-threshold baseline; also surveyed the company's internal AI platform capabilities to inform the AI productization roadmap.</span>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Siemens -->
+        <article class="card">
+          <div class="role-head">
+            <span class="logo-plate"><img src="assets/img/logos/siemens-color.svg" alt="Siemens" /></span>
+            <div>
+              <div class="entry-title">
+                <span class="zh">西门子（中国）成都分公司 · IF（Integrated Factory）</span>
+                <span class="en">Siemens (China), Chengdu · Integrated Factory</span>
+              </div>
+              <div class="meta">
+                <span class="zh">业务算法实习生</span><span class="en">Business Algorithm Intern</span>
+              </div>
+            </div>
+            <span class="date" style="margin-left:auto">2024.05 – 2024.10</span>
+          </div>
+
+          <ul class="plain">
+            <li>
+              <span class="zh">推动 SAM 模型应用于免训练自适应产线预研，提炼“零训练成本 + 秒级响应”核心指标，结合预训练模型强泛化能力设计快速部署方案，预估可缩短产线切换步骤 95% 以上耗时。</span>
+              <span class="en">Drove a pre-study applying SAM to training-free adaptive production lines; defined “zero training cost + second-level response” as the core metric and designed a fast-deployment scheme off the model's strong generalization — projected to cut over 95% of the time spent on line-switch steps.</span>
+            </li>
+            <li>
+              <span class="zh">调研具身智能前沿技术，原型化验证 VLM + 机械臂协同方案，有效提升制造环节的抓取精度与环境适应性。</span>
+              <span class="en">Surveyed embodied-AI frontier work and prototyped a VLM + robotic-arm collaboration scheme, improving grasping accuracy and environmental adaptability on the shop floor.</span>
+            </li>
+            <li>
+              <span class="zh">针对产线批次计件高精度、容错低的业务痛点，基于 GroundingDINO 开发视觉计件系统，协同完成 PLC 联调与产线部署，计数准确率提升至 99%+，有效规避漏件 / 空件导致的重大资损。</span>
+              <span class="en">Built a vision-based piece-counting system on GroundingDINO for a high-precision, low-tolerance batch-counting pain point; coordinated PLC integration and on-line deployment, lifting counting accuracy to 99%+ and eliminating major financial losses from missed or empty parts.</span>
+            </li>
+          </ul>
+        </article>
       </section>
 
-      <section id="contact" class="section">
-        <div class="container flow">
-          <h2>Contact</h2>
-          <p>For prospective students and collaborators, please email <a href="mailto:avery.kim@example.edu">avery.kim@example.edu</a>.</p>
+      <!-- ============ Projects ============ -->
+      <section class="wrap" id="projects">
+        <div class="section-head">
+          <span class="idx">05</span>
+          <h2><span class="zh">项目经历</span><span class="en">Projects</span></h2>
+        </div>
+
+        <article class="card">
+          <div class="entry-head">
+            <div class="entry-title">
+              <span class="zh">MAS-UAV：基于 Multi-Agent System 的高灵活性无人机任务调度方案</span>
+              <span class="en">MAS-UAV: A Flexible UAV Task-Scheduling Scheme with Multi-Agent Systems</span>
+            </div>
+            <span class="date">2024.10 – 2025.05</span>
+          </div>
+          <div class="entry-sub"><span class="zh">本科毕业设计</span><span class="en">Undergraduate thesis</span></div>
+
+          <ul class="plain">
+            <li>
+              <span class="zh">针对低空经济无人机动态调度难题，设计基于 LLM 的多智能体协同调度架构，采用 ReAct 范式构建智能体决策流，实现任务拆解、资源冲突消解与动态重规划；创新性引入图结构通信记忆与 Graph-RAG 机制，将多智能体交互过程转化为可检索的图节点 / 边记录，支持系统离线对历史通信进行语义分析与策略迭代，完成全链路可行性验证与基线实验。</span>
+              <span class="en">Targeting dynamic UAV scheduling in the low-altitude economy, designed an LLM-based multi-agent coordination architecture; used a ReAct-style decision flow for task decomposition, resource-conflict resolution, and dynamic re-planning. Introduced graph-structured communication memory with a Graph-RAG mechanism that turns agent interactions into retrievable graph nodes and edges, enabling offline semantic analysis of past communication and strategy iteration. Completed end-to-end feasibility validation and baseline experiments.</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="entry-head">
+            <div class="entry-title">
+              <span class="zh">基于知识图谱的精神病医疗问答系统</span>
+              <span class="en">Psychiatric Medical QA System over a Knowledge Graph</span>
+            </div>
+            <span class="date">2022.09 – 2023.07</span>
+          </div>
+          <div class="entry-sub">
+            <span class="zh">省级大学生创新训练计划 · 第一主研（算法研究）</span>
+            <span class="en">Provincial Undergraduate Innovation Program · Lead researcher (algorithms)</span>
+          </div>
+
+          <ul class="plain">
+            <li>
+              <span class="zh">主导万级多源精神卫生数据（临床指南、脱敏病历、网络问答）的清洗与结构化处理，设计本体 Schema 并构建覆盖“症状 – 诊断 – 干预”的领域知识图谱；设计并实现基于知识图谱 RAG 的医疗问答推理链路，融合图谱结构化检索约束与 LLM 语义生成，有效抑制领域幻觉，提升复杂医学问答的准确性与可解释性。</span>
+              <span class="en">Led cleaning and structuring of 10k-scale multi-source psychiatric data (clinical guidelines, de-identified records, web Q&amp;A); designed the ontology schema and built a domain knowledge graph spanning symptoms, diagnosis, and intervention. Implemented a knowledge-graph RAG reasoning pipeline that couples structured graph retrieval constraints with LLM generation, suppressing domain hallucination and improving accuracy and interpretability on complex medical questions.</span>
+            </li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- ============ Honors & Skills ============ -->
+      <section class="wrap" id="honors">
+        <div class="section-head">
+          <span class="idx">06</span>
+          <h2><span class="zh">荣誉与技能</span><span class="en">Honors &amp; Skills</span></h2>
+        </div>
+
+        <div class="card">
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>四川省一等奖</strong> · 中国大学生数学建模竞赛</span>
+              <span class="en"><strong>First Prize, Sichuan Province</strong> · China Undergraduate Mathematical Contest in Modeling</span>
+            </span>
+            <span class="date">2023.10</span>
+          </div>
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>一等奖</strong> · 美国大学生数学建模竞赛（MCM / ICM）</span>
+              <span class="en"><strong>First Prize</strong> · Mathematical Contest in Modeling (MCM / ICM)</span>
+            </span>
+            <span class="date">2024.06</span>
+          </div>
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>二等奖学金</strong> · 四川大学研究生新生</span>
+              <span class="en"><strong>Second-Class Scholarship</strong> · Sichuan University Graduate</span>
+            </span>
+            <span class="date">2025.09</span>
+          </div>
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>综合二等奖学金</strong> · 四川大学</span>
+              <span class="en"><strong>Comprehensive Second-Class Scholarship</strong> · Sichuan University</span>
+            </span>
+            <span class="date">2024.09</span>
+          </div>
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>单项一等奖学金</strong>（2021–2022 / 2022–2023 学年）· 四川大学</span>
+              <span class="en"><strong>Merit Scholarship, First Class</strong> (2021–22 / 2022–23) · Sichuan University</span>
+            </span>
+            <span class="date">2022.09 / 2023.09</span>
+          </div>
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>优秀学生</strong> · 四川大学</span>
+              <span class="en"><strong>Outstanding Student</strong> · Sichuan University</span>
+            </span>
+            <span class="date">2025.09</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="skill-row">
+            <span class="skill-key"><span class="zh">专业技能</span><span class="en">Technical</span></span>
+            <span class="skill-val">
+              <span class="zh">Python、Java、C / C++；熟练使用 PyTorch、Transformers 等深度学习框架，熟悉 LLM 训练与推理全流程</span>
+              <span class="en">Python, Java, C/C++; PyTorch and Transformers, with hands-on experience across LLM training and inference pipelines</span>
+            </span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-key"><span class="zh">研究方向</span><span class="en">Research</span></span>
+            <span class="skill-val">
+              <span class="zh">LLM Agent、Long-Horizon Reasoning、RAG、强化学习、多模态学习</span>
+              <span class="en">LLM agents, long-horizon reasoning, RAG, reinforcement learning, multimodal learning</span>
+            </span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-key"><span class="zh">工具与兴趣</span><span class="en">Tooling &amp; Interests</span></span>
+            <span class="skill-val">
+              <span class="zh">Canvas、Excalidraw、SPSSPRO、墨刀、Git、JIRA、PS、PR；羽毛球、游泳</span>
+              <span class="en">Canvas, Excalidraw, SPSSPRO, MockingBot, Git, JIRA, Photoshop, Premiere; badminton, swimming</span>
+            </span>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <p>© <span id="year"></span> College of Computer Science — Sichuan University</p>
-        <p>
-          <a href="https://scholar.google.com/citations?user=L9b-8ZwAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a> •
-          <a href="https://github.com/Kaimaoge" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </p>
+    <footer>
+      <div class="wrap footer-inner">
+        <span>
+          <span class="zh">© 2026 吴坤明 · 用 HTML 与 CSS 手工搭建</span>
+          <span class="en">© 2026 Wu Kunming · Handcrafted with HTML &amp; CSS</span>
+        </span>
+        <span class="footer-links">
+          <a href="mailto:2197639171@qq.com"><span class="zh">邮箱</span><span class="en">Email</span></a>
+          <a href="https://github.com/wkmallmx" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="#top"><span class="zh">回到顶部</span><span class="en">Back to top</span></a>
+        </span>
       </div>
     </footer>
 
     <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
+      (function () {
+        var root = document.documentElement;
+        var langBtn = document.getElementById('langBtn');
+        var themeBtn = document.getElementById('themeBtn');
+
+        function store(key, value) {
+          try { localStorage.setItem(key, value); } catch (e) { /* private mode */ }
+        }
+        function load(key) {
+          try { return localStorage.getItem(key); } catch (e) { return null; }
+        }
+
+        // Language: default zh, remember preference, respect browser hint on first visit.
+        var lang = load('lang');
+        if (!lang) {
+          lang = (navigator.language || 'zh').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
+        }
+        root.setAttribute('data-lang', lang);
+        root.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+
+        langBtn.addEventListener('click', function () {
+          var next = root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh';
+          root.setAttribute('data-lang', next);
+          root.setAttribute('lang', next === 'zh' ? 'zh-CN' : 'en');
+          store('lang', next);
+        });
+
+        // Theme: follow the system unless the visitor has chosen.
+        var saved = load('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        root.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+
+        themeBtn.addEventListener('click', function () {
+          var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          root.setAttribute('data-theme', next);
+          store('theme', next);
+        });
+      })();
     </script>
   </body>
-  </html>
+</html>
