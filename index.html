@@ -13,6 +13,7 @@
     <link rel="canonical" href="https://kunming-wu.github.io/" />
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="assets/img/avatar.jpg" />
+    <script>document.documentElement.classList.add('js');</script>
     <style>
       /* ---------------- Design tokens ---------------- */
       :root {
@@ -126,6 +127,17 @@
         font-variant-numeric: tabular-nums;
       }
 
+      /* ---------------- Views ---------------- */
+      .js .view { display: none; }
+      .js .view.is-active { display: block; animation: view-in 0.22s ease; }
+
+      @keyframes view-in {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: none; }
+      }
+
+      .view { padding-top: 34px; }
+
       /* ---------------- Header ---------------- */
       .site-header {
         position: sticky;
@@ -167,6 +179,7 @@
         transition: background 0.15s, color 0.15s;
       }
       .nav a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+      .nav a[aria-current="page"] { background: var(--surface-2); color: var(--text); font-weight: 600; }
 
       .toggle {
         display: inline-flex;
@@ -192,7 +205,7 @@
         display: flex;
         align-items: flex-start;
         gap: 32px;
-        padding: 52px 0 8px;
+        padding: 18px 0 8px;
       }
 
       .avatar {
@@ -264,6 +277,62 @@
       }
       .contact a:hover { color: var(--accent); }
       .contact svg { width: 15px; height: 15px; flex: 0 0 auto; opacity: 0.75; }
+
+      /* ---------------- Home intro + highlights ---------------- */
+      .intro {
+        margin-top: 26px;
+        font-size: 0.95rem;
+        color: var(--text-soft);
+      }
+      .intro p { margin: 0; }
+      .intro p + p { margin-top: 12px; }
+      .intro b { color: var(--text); font-weight: 620; }
+
+      .hl-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .hl {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+        color: inherit;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      }
+      .hl:hover {
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lift);
+        border-color: var(--line-strong);
+      }
+
+      .hl h3 {
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .hl h3 .arrow {
+        margin-left: auto;
+        color: var(--text-mute);
+        transition: transform 0.15s ease, color 0.15s ease;
+        font-weight: 400;
+      }
+      .hl:hover h3 .arrow { transform: translateX(3px); color: var(--accent); }
+
+      .hl p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--text-soft);
+      }
 
       /* ---------------- Cards ---------------- */
       .card {
@@ -438,6 +507,12 @@
       .badge.co { background: var(--gold-soft); color: var(--gold); }
       .badge.n { background: var(--surface-2); color: var(--text-mute); }
 
+      .pub-note {
+        margin: 14px 0 0;
+        font-size: 0.84rem;
+        color: var(--text-mute);
+      }
+
       /* ---------------- Awards ---------------- */
       .award {
         display: flex;
@@ -486,8 +561,10 @@
 
       /* ---------------- Responsive ---------------- */
       @media (max-width: 760px) {
-        .nav { display: none; }
-        .hero { flex-direction: column; gap: 22px; padding-top: 36px; }
+        .header-inner { height: auto; padding-top: 10px; padding-bottom: 10px; flex-wrap: wrap; }
+        .nav { order: 3; width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; }
+        .nav a { white-space: nowrap; }
+        .hero { flex-direction: column; gap: 22px; padding-top: 8px; }
         .avatar { width: 104px; height: 104px; }
         .hero h1 { font-size: 1.75rem; }
         .section-head h2 { font-size: 1.18rem; }
@@ -502,7 +579,8 @@
       }
 
       @media print {
-        .site-header, .toggle-group { display: none !important; }
+        .site-header, .toggle-group, .hl-grid { display: none !important; }
+        .js .view { display: block !important; }
         .card { box-shadow: none; border-color: #ccc; }
         body { background: #fff; }
       }
@@ -510,20 +588,16 @@
   </head>
 
   <body>
-    <a class="skip" href="#about" style="position:absolute;left:-9999px">Skip to content</a>
-
     <header class="site-header">
       <div class="wrap header-inner">
-        <a class="brand" href="#top">吴坤明<span class="dot">.</span></a>
+        <a class="brand" href="#home">吴坤明<span class="dot">.</span></a>
 
         <nav class="nav" aria-label="Section navigation">
-          <a href="#about"><span class="zh">关于</span><span class="en">About</span></a>
-          <a href="#education"><span class="zh">教育</span><span class="en">Education</span></a>
           <a href="#publications"><span class="zh">论文</span><span class="en">Publications</span></a>
           <a href="#experience"><span class="zh">实习</span><span class="en">Experience</span></a>
           <a href="#projects"><span class="zh">项目</span><span class="en">Projects</span></a>
+          <a href="#education"><span class="zh">教育</span><span class="en">Education</span></a>
           <a href="#honors"><span class="zh">荣誉</span><span class="en">Honors</span></a>
-          <a href="#contact"><span class="zh">联系</span><span class="en">Contact</span></a>
         </nav>
 
         <div class="toggle-group">
@@ -538,141 +612,121 @@
     </header>
 
     <main id="top">
-      <!-- ============ Hero ============ -->
-      <div class="wrap hero">
-        <img class="avatar" src="assets/img/avatar.jpg" alt="吴坤明 Wu Kunming" width="132" height="132" />
+      <!-- ============ Home ============ -->
+      <div class="view wrap is-active" id="home" data-view>
+        <div class="hero">
+          <img class="avatar" src="assets/img/avatar.jpg" alt="吴坤明 Wu Kunming" width="132" height="132" />
 
-        <div class="hero-body">
-          <h1>
-            <span class="zh">吴坤明</span><span class="en">Wu Kunming</span>
-            <span class="latin zh">Wu Kunming</span>
-          </h1>
+          <div class="hero-body">
+            <h1>
+              <span class="zh">吴坤明</span><span class="en">Wu Kunming</span>
+              <span class="latin zh">Wu Kunming</span>
+            </h1>
 
-          <p class="hero-title">
+            <p class="hero-title">
+              <span class="zh">
+                <strong>四川大学</strong> · 计算机科学与技术 · 硕士研究生（推免）
+              </span>
+              <span class="en">
+                M.S. Student in <strong>Computer Science</strong>, Sichuan University
+              </span>
+            </p>
+
+            <div class="tags">
+              <span class="tag">LLM Agent</span>
+              <span class="tag">Long-Horizon Reasoning</span>
+              <span class="tag">Multimodal Learning</span>
+              <span class="tag">RAG</span>
+              <span class="tag">Reinforcement Learning</span>
+            </div>
+
+            <div class="contact">
+              <a href="mailto:2197639171@qq.com">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+                  <path d="M3 7l9 6 9-6" />
+                </svg>
+                2197639171@qq.com
+              </a>
+              <span class="item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7 2 2 0 016.5 3.5z" />
+                </svg>
+                183 0898 4397
+              </span>
+              <span class="item">
+                <span class="zh">微信</span><span class="en">WeChat</span> wkm_scu-
+              </span>
+              <a href="https://github.com/Kunming-Wu" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2a10 10 0 00-3.16 19.5c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" />
+                </svg>
+                github.com/Kunming-Wu
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="intro">
+          <p>
             <span class="zh">
-              <strong>四川大学</strong> · 计算机科学与技术 · 硕士研究生（推免）
+              我是四川大学计算机科学与技术专业的硕士研究生，研究方向为
+              <b>LLM Agent</b>、<b>Long-Horizon Reasoning</b> 与 <b>Multimodal Learning</b>。
+              已有多篇论文被 EMNLP Findings、IEEE Signal Processing Letters、Neurocomputing 等录用，
+              另有若干一作 / 共一在投。实习覆盖研究、产品与业务算法三类场景：在华为诺亚方舟实验室做
+              Long-Horizon 下的大小模型协作与 LLM 算子生成，在美团推动 BDM-AI 助手从需求验证走到 MVP 落地，
+              在西门子把视觉计件等 CV 系统部署到了产线上。
             </span>
             <span class="en">
-              M.S. Student in <strong>Computer Science</strong>, Sichuan University
+              I'm a master's student in Computer Science at Sichuan University, working on
+              <b>LLM agents</b>, <b>long-horizon reasoning</b>, and <b>multimodal learning</b>.
+              Several of my papers have been published or accepted at EMNLP Findings,
+              IEEE Signal Processing Letters, and Neurocomputing, with more first-author and
+              co-first-author work under review. My internships span research, product, and
+              applied-algorithm roles: long-horizon small/large-model collaboration and
+              LLM-driven kernel generation at Huawei Noah's Ark Lab, taking Meituan's BDM AI
+              Assistant from need validation to MVP, and deploying vision-based piece-counting
+              systems onto the factory line at Siemens.
             </span>
           </p>
+        </div>
 
-          <div class="tags">
-            <span class="tag">LLM Agent</span>
-            <span class="tag">Long-Horizon Reasoning</span>
-            <span class="tag">Multimodal Learning</span>
-            <span class="tag">RAG</span>
-            <span class="tag">Reinforcement Learning</span>
-          </div>
-
-          <div class="contact" id="contact">
-            <a href="mailto:2197639171@qq.com">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
-                <path d="M3 7l9 6 9-6" />
-              </svg>
-              2197639171@qq.com
-            </a>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2.2 2A16.5 16.5 0 014.5 5.7 2 2 0 016.5 3.5z" />
-              </svg>
-              183 0898 4397
-            </span>
-            <span class="item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <path d="M4 6.5a8 8 0 0116 0v6a8 8 0 01-8 8 7.9 7.9 0 01-3.2-.7L5 21l1.2-3A8 8 0 014 12.5v-6z" />
-                <circle cx="9" cy="10.5" r=".9" fill="currentColor" />
-                <circle cx="15" cy="10.5" r=".9" fill="currentColor" />
-              </svg>
-              wkm_scu-
-            </span>
-            <a href="https://github.com/Kunming-Wu" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 2a10 10 0 00-3.16 19.5c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" />
-              </svg>
-              github.com/Kunming-Wu
-            </a>
-          </div>
+        <div class="hl-grid">
+          <a class="hl" href="#publications">
+            <h3><span class="zh">论文</span><span class="en">Publications</span><span class="arrow" aria-hidden="true">→</span></h3>
+            <p>
+              <span class="zh">EMNLP Findings、IEEE SPL、Neurocomputing 等 7 篇录用，3 篇在投</span>
+              <span class="en">7 accepted papers (EMNLP Findings, IEEE SPL, Neurocomputing, …), 3 under review</span>
+            </p>
+          </a>
+          <a class="hl" href="#experience">
+            <h3><span class="zh">实习</span><span class="en">Experience</span><span class="arrow" aria-hidden="true">→</span></h3>
+            <p>
+              <span class="zh">华为 · 诺亚方舟实验室 / 美团 / 西门子</span>
+              <span class="en">Huawei Noah's Ark Lab / Meituan / Siemens</span>
+            </p>
+          </a>
+          <a class="hl" href="#projects">
+            <h3><span class="zh">项目</span><span class="en">Projects</span><span class="arrow" aria-hidden="true">→</span></h3>
+            <p>
+              <span class="zh">MAS-UAV 多智能体调度 / 精神病知识图谱问答</span>
+              <span class="en">MAS-UAV multi-agent scheduling / psychiatric KG question answering</span>
+            </p>
+          </a>
+          <a class="hl" href="#education">
+            <h3><span class="zh">教育</span><span class="en">Education</span><span class="arrow" aria-hidden="true">→</span></h3>
+            <p>
+              <span class="zh">四川大学 · 计算机科学与技术硕士（推免）· GPA 3.93 / 4.0</span>
+              <span class="en">Sichuan University · M.S. in Computer Science · GPA 3.93 / 4.0</span>
+            </p>
+          </a>
         </div>
       </div>
 
-      <!-- ============ About ============ -->
-      <section class="wrap" id="about">
+      <!-- ============ Publications ============ -->
+      <div class="view wrap" id="publications" data-view>
         <div class="section-head">
           <span class="idx">01</span>
-          <h2><span class="zh">个人概述</span><span class="en">About</span></h2>
-        </div>
-
-        <div class="card">
-          <p style="margin:0">
-            <span class="zh">
-              对 LLM 有一定的独到 Insights，有一定 Research 能力和学术 Taste，可深度参与或独立推进 LLM 相关研究；
-              熟悉 Prompt Engineering、AI Agent、RAG 等技术，结合一线算法与产品实习经历，
-              擅长结合业务推动 AI 技术选型、落地和优化。目前主要关注
-              <b>LLM Agent</b>、<b>Long-Horizon 任务</b>、<b>Reasoning</b> 与 <b>Multimodal Learning</b> 方向。
-            </span>
-            <span class="en">
-              I work on large language models — in particular <b>LLM agents</b>,
-              <b>long-horizon reasoning</b>, and <b>multimodal learning</b>. I enjoy both
-              research and engineering: I have built and evaluated agent frameworks,
-              prompt-engineering and RAG pipelines, and have shipped AI features inside
-              industrial and product teams. I am comfortable driving a research direction
-              independently, as well as turning it into something a real user can touch.
-            </span>
-          </p>
-        </div>
-      </section>
-
-      <!-- ============ Education ============ -->
-      <section class="wrap" id="education">
-        <div class="section-head">
-          <span class="idx">02</span>
-          <h2><span class="zh">教育经历</span><span class="en">Education</span></h2>
-        </div>
-
-        <div class="card">
-          <div class="entry">
-            <div class="entry-head">
-              <div>
-                <div class="entry-title">
-                  <span class="zh">四川大学 · 计算机科学与技术（硕士 · 推免）</span>
-                  <span class="en">Sichuan University · M.S. in Computer Science</span>
-                </div>
-                <div class="entry-sub">
-                  <span class="zh">推免录取 · 主要方向：LLM（Agent / Long Horizon / Reasoning）、Multimodal Learning</span>
-                  <span class="en">Admitted via recommendation · Focus: LLM (Agents / Long Horizon / Reasoning), Multimodal Learning</span>
-                </div>
-              </div>
-              <span class="date">2025.09 – 2028.06</span>
-            </div>
-            <div class="facts">
-              <span><b>GPA</b> 3.93 / 4.0 (90 / 100)<span class="zh">，前 10%</span><span class="en">, top 10%</span></span>
-            </div>
-          </div>
-
-          <div class="entry" style="margin-bottom:0; padding-top:18px; border-top:1px solid var(--line)">
-            <div class="entry-head">
-              <div>
-                <div class="entry-title">
-                  <span class="zh">四川大学 · 软件工程（本科）</span>
-                  <span class="en">Sichuan University · B.Eng. in Software Engineering</span>
-                </div>
-              </div>
-              <span class="date">2021.09 – 2025.06</span>
-            </div>
-            <div class="facts">
-              <span><b><span class="zh">综测</span><span class="en">Overall</span></b> 90.25 / 100<span class="zh">，前 9%</span><span class="en">, top 9%</span></span>
-              <span><b>GPA</b> 3.69 / 4.0 (88.3 / 100)<span class="zh">，前 20%</span><span class="en">, top 20%</span></span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ Publications ============ -->
-      <section class="wrap" id="publications">
-        <div class="section-head">
-          <span class="idx">03</span>
           <h2><span class="zh">学术产出</span><span class="en">Publications</span></h2>
         </div>
 
@@ -721,16 +775,38 @@
               </div>
             </li>
             <li>
-              <div class="pub-title">
-                <span class="zh">另有 4 篇二作 CCF-C 类会议论文录用（含 ICONIP、PRICAI、IJCNN）</span>
-                <span class="en">4 further CCF-C papers as second author (ICONIP, PRICAI, IJCNN)</span>
-              </div>
+              <div class="pub-title">StepLink-RL: Process-Aware Reward Shaping for Long-Horizon Reasoning</div>
               <div class="pub-meta">
-                <span class="zh">研究方向涵盖 Long-Horizon Reasoning、LLM Text-to-SQL、小样本目标检测等，均系协助导师指导本科生团队完成。</span>
-                <span class="en">Covering long-horizon reasoning, LLM Text-to-SQL, and few-shot object detection — completed while mentoring undergraduate teams.</span>
+                <span class="badge n"><span class="zh">第二作者</span><span class="en">Second author</span></span>
+                <span class="venue">ICONIP</span>
+                <span class="badge n">CCF-C</span>
+                <span class="date">2026</span>
+              </div>
+            </li>
+            <li>
+              <div class="pub-title">Pricing Generative-AI Models from Public Data: A Reproducible Measurement and a Quantified Predictability Ceiling</div>
+              <div class="pub-meta">
+                <span class="badge n"><span class="zh">第三作者</span><span class="en">Third author</span></span>
+                <span class="venue">PRICAI</span>
+                <span class="badge n">CCF-C</span>
+                <span class="date">2026</span>
+              </div>
+            </li>
+            <li>
+              <div class="pub-title">STARM: Learning-Augmented Rolling Assignment for Workload-Equitable Station Staff Scheduling</div>
+              <div class="pub-meta">
+                <span class="badge n"><span class="zh">第三作者</span><span class="en">Third author</span></span>
+                <span class="venue">PRICAI</span>
+                <span class="badge n">CCF-C</span>
+                <span class="date">2026</span>
               </div>
             </li>
           </ol>
+
+          <p class="pub-note">
+            <span class="zh">其中 Link-R1、StepLink-RL、Pricing Generative-AI Models、STARM 系协助导师指导本科生团队完成，方向涵盖 LLM Text-to-SQL、Long-Horizon Reasoning 与组合优化调度。</span>
+            <span class="en">Link-R1, StepLink-RL, Pricing Generative-AI Models, and STARM were completed while assisting my advisor in mentoring undergraduate teams, spanning LLM Text-to-SQL, long-horizon reasoning, and combinatorial scheduling.</span>
+          </p>
         </div>
 
         <!-- Under review -->
@@ -750,7 +826,7 @@
               </div>
             </li>
             <li>
-              <div class="pub-title">TORCH: Making SLMs Effective Collaborators for LLMs in Long-Horizon Tasks</div>
+              <div class="pub-title">Empowering SLMs as Effective Collaborators for LLMs in Long-Horizon Tasks</div>
               <div class="pub-meta">
                 <span class="badge first"><span class="zh">第一作者</span><span class="en">First author</span></span>
                 <span class="venue">NAACL</span>
@@ -781,12 +857,12 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- ============ Experience ============ -->
-      <section class="wrap" id="experience">
+      <div class="view wrap" id="experience" data-view>
         <div class="section-head">
-          <span class="idx">04</span>
+          <span class="idx">02</span>
           <h2><span class="zh">实习经历</span><span class="en">Experience</span></h2>
         </div>
 
@@ -808,11 +884,11 @@
 
           <ul class="plain">
             <li>
-              <span class="zh"><strong>Long Horizon Agent 优化（在做）：</strong>科研型工作，通过构建智能体化、可递归的上下文调度框架实现“小 context、大 workspace”模式，优化 LLM 的 Long Horizon 能力；并结合强化学习进行 Harness-native 后训练。</span>
-              <span class="en"><strong>Long-Horizon Agent optimization (ongoing):</strong> research work building an agentic, recursively composable context-scheduling framework toward a “small context, large workspace” regime, improving LLM long-horizon capability; paired with reinforcement learning for harness-native post-training.</span>
+              <span class="zh"><strong>Long Horizon Agent 优化：</strong>科研型工作，通过构建智能体化、可递归的上下文调度框架实现“小 context、大 workspace”模式，优化端侧级小 LLM 的 Long Horizon 能力；并构造大小模型协同方法，将 OPD 适配到此框架上进行 Harness-native 后训练，实现 Long Horizon 任务下大小模型的高效协同，成本减少约 20–30% 的情况下达到更好的性能。</span>
+              <span class="en"><strong>Long-Horizon agent optimization:</strong> research work building an agentic, recursively composable context-scheduling framework toward a “small context, large workspace” regime for on-device small LLMs; built a small/large-model collaboration method that adapts OPD onto this framework for harness-native post-training, yielding effective collaboration on long-horizon tasks at roughly 20–30% lower cost with better performance.</span>
             </li>
             <li>
-              <span class="zh"><strong>LLM for 昇腾算子生成 / 优化（在做）：</strong>半科研半业务预研型工作，搭建进化框架并使用 LLM evolve 模式进行 NPU 算子生成与优化。</span>
+              <span class="zh"><strong>LLM for 昇腾算子生成 / 优化（在做）：</strong>业务预研型工作，搭建进化框架并使用 LLM evolve 模式进行 NPU 算子生成与优化。</span>
               <span class="en"><strong>LLM for Ascend kernel generation &amp; optimization (ongoing):</strong> applied-research pre-study; built an evolutionary framework that uses an LLM-evolve loop to generate and optimize NPU kernels.</span>
             </li>
           </ul>
@@ -877,12 +953,12 @@
             </li>
           </ul>
         </article>
-      </section>
+      </div>
 
       <!-- ============ Projects ============ -->
-      <section class="wrap" id="projects">
+      <div class="view wrap" id="projects" data-view>
         <div class="section-head">
-          <span class="idx">05</span>
+          <span class="idx">03</span>
           <h2><span class="zh">项目经历</span><span class="en">Projects</span></h2>
         </div>
 
@@ -924,12 +1000,57 @@
             </li>
           </ul>
         </article>
-      </section>
+      </div>
+
+      <!-- ============ Education ============ -->
+      <div class="view wrap" id="education" data-view>
+        <div class="section-head">
+          <span class="idx">04</span>
+          <h2><span class="zh">教育经历</span><span class="en">Education</span></h2>
+        </div>
+
+        <div class="card">
+          <div class="entry">
+            <div class="entry-head">
+              <div>
+                <div class="entry-title">
+                  <span class="zh">四川大学 · 计算机科学与技术（硕士 · 推免）</span>
+                  <span class="en">Sichuan University · M.S. in Computer Science</span>
+                </div>
+                <div class="entry-sub">
+                  <span class="zh">推免录取 · 主要方向：LLM（Agent / Long Horizon / Reasoning）、Multimodal Learning</span>
+                  <span class="en">Admitted via recommendation · Focus: LLM (Agents / Long Horizon / Reasoning), Multimodal Learning</span>
+                </div>
+              </div>
+              <span class="date">2025.09 – 2028.06</span>
+            </div>
+            <div class="facts">
+              <span><b>GPA</b> 3.93 / 4.0 (90 / 100)<span class="zh">，前 10%</span><span class="en">, top 10%</span></span>
+            </div>
+          </div>
+
+          <div class="entry" style="margin-bottom:0; padding-top:18px; border-top:1px solid var(--line)">
+            <div class="entry-head">
+              <div>
+                <div class="entry-title">
+                  <span class="zh">四川大学 · 软件工程（本科）</span>
+                  <span class="en">Sichuan University · B.Eng. in Software Engineering</span>
+                </div>
+              </div>
+              <span class="date">2021.09 – 2025.06</span>
+            </div>
+            <div class="facts">
+              <span><b><span class="zh">综测</span><span class="en">Overall</span></b> 90.25 / 100<span class="zh">，前 9%</span><span class="en">, top 9%</span></span>
+              <span><b>GPA</b> 3.69 / 4.0 (88.3 / 100)<span class="zh">，前 20%</span><span class="en">, top 20%</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- ============ Honors & Skills ============ -->
-      <section class="wrap" id="honors">
+      <div class="view wrap" id="honors" data-view>
         <div class="section-head">
-          <span class="idx">06</span>
+          <span class="idx">05</span>
           <h2><span class="zh">荣誉与技能</span><span class="en">Honors &amp; Skills</span></h2>
         </div>
 
@@ -976,6 +1097,20 @@
             </span>
             <span class="date">2025.09</span>
           </div>
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>优秀研究生</strong> · 四川大学</span>
+              <span class="en"><strong>Outstanding Graduate Student</strong> · Sichuan University</span>
+            </span>
+            <span class="date">2026.09</span>
+          </div>
+          <div class="award">
+            <span class="award-name">
+              <span class="zh"><strong>优秀研究生干部</strong> · 四川大学</span>
+              <span class="en"><strong>Outstanding Graduate Student Leader</strong> · Sichuan University</span>
+            </span>
+            <span class="date">2026.09</span>
+          </div>
         </div>
 
         <div class="card">
@@ -989,8 +1124,15 @@
           <div class="skill-row">
             <span class="skill-key"><span class="zh">研究方向</span><span class="en">Research</span></span>
             <span class="skill-val">
-              <span class="zh">LLM Agent、Long-Horizon Reasoning、RAG、强化学习、多模态学习</span>
-              <span class="en">LLM agents, long-horizon reasoning, RAG, reinforcement learning, multimodal learning</span>
+              <span class="zh">LLM Agent、Long-Horizon Reasoning、RAG、强化学习、多模态学习；熟悉 Prompt Engineering、Agent Harness / Self-Evolution</span>
+              <span class="en">LLM agents, long-horizon reasoning, RAG, reinforcement learning, multimodal learning; prompt engineering and agent harness / self-evolution</span>
+            </span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-key"><span class="zh">常用 AI 工具</span><span class="en">AI Tooling</span></span>
+            <span class="skill-val">
+              <span class="zh">Claude Code、GitHub Copilot、WorkBuddy、ARIS</span>
+              <span class="en">Claude Code, GitHub Copilot, WorkBuddy, ARIS</span>
             </span>
           </div>
           <div class="skill-row">
@@ -1001,19 +1143,19 @@
             </span>
           </div>
         </div>
-      </section>
+      </div>
     </main>
 
     <footer>
       <div class="wrap footer-inner">
         <span>
-          <span class="zh">© 2026 吴坤明 · 用 HTML 与 CSS 手工搭建</span>
-          <span class="en">© 2026 Wu Kunming · Handcrafted with HTML &amp; CSS</span>
+          <span class="zh">© 2026 吴坤明</span>
+          <span class="en">© 2026 Wu Kunming</span>
         </span>
         <span class="footer-links">
           <a href="mailto:2197639171@qq.com"><span class="zh">邮箱</span><span class="en">Email</span></a>
           <a href="https://github.com/Kunming-Wu" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="#top"><span class="zh">回到顶部</span><span class="en">Back to top</span></a>
+          <a href="#home"><span class="zh">回到首页</span><span class="en">Back to top</span></a>
         </span>
       </div>
     </footer>
@@ -1044,6 +1186,7 @@
           root.setAttribute('data-lang', next);
           root.setAttribute('lang', next === 'zh' ? 'zh-CN' : 'en');
           store('lang', next);
+          setTitle(currentView());
         });
 
         // Theme: follow the system unless the visitor has chosen.
@@ -1056,6 +1199,48 @@
           root.setAttribute('data-theme', next);
           store('theme', next);
         });
+
+        // ---------------- Views ----------------
+        var views = Array.prototype.slice.call(document.querySelectorAll('[data-view]'));
+        var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+        var ids = views.map(function (v) { return v.id; });
+        var titles = {
+          home: ['吴坤明 · Wu Kunming', 'Wu Kunming · 吴坤明'],
+          publications: ['论文 · 吴坤明', 'Publications · Wu Kunming'],
+          experience: ['实习经历 · 吴坤明', 'Experience · Wu Kunming'],
+          projects: ['项目经历 · 吴坤明', 'Projects · Wu Kunming'],
+          education: ['教育经历 · 吴坤明', 'Education · Wu Kunming'],
+          honors: ['荣誉与技能 · 吴坤明', 'Honors & Skills · Wu Kunming']
+        };
+
+        function currentView() {
+          var id = (location.hash || '').replace('#', '');
+          return ids.indexOf(id) >= 0 ? id : 'home';
+        }
+
+        function setTitle(id) {
+          var t = titles[id] || titles.home;
+          document.title = root.getAttribute('data-lang') === 'en' ? t[1] : t[0];
+        }
+
+        function render() {
+          var id = currentView();
+          views.forEach(function (v) {
+            v.classList.toggle('is-active', v.id === id);
+          });
+          navLinks.forEach(function (a) {
+            if (a.getAttribute('href') === '#' + id) {
+              a.setAttribute('aria-current', 'page');
+            } else {
+              a.removeAttribute('aria-current');
+            }
+          });
+          setTitle(id);
+          window.scrollTo(0, 0);
+        }
+
+        window.addEventListener('hashchange', render);
+        render();
       })();
     </script>
   </body>
