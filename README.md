@@ -1,8 +1,8 @@
-# wkmallmx.github.io
+# Kunming-Wu.github.io
 
 Personal homepage of **Wu Kunming (吴坤明)** — M.S. student in Computer Science at Sichuan University.
 
-Live at **https://wkmallmx.github.io**
+Live at **https://kunming-wu.github.io**
 
 ## What's here
 
