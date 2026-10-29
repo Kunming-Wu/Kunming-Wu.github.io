@@ -482,6 +482,17 @@
 
       .pub-title { font-weight: 600; color: var(--text); }
 
+      a.pub-title { color: inherit; }
+      a.pub-title:hover { color: var(--accent); }
+      a.pub-title .arrow {
+        display: inline-block;
+        margin-left: 5px;
+        font-size: 0.8em;
+        color: var(--text-mute);
+        transition: transform .15s, color .15s;
+      }
+      a.pub-title:hover .arrow { color: var(--accent); transform: translate(2px, -2px); }
+
       .pub-meta {
         display: flex;
         flex-wrap: wrap;
@@ -739,7 +750,7 @@
 
           <ol class="pubs">
             <li>
-              <div class="pub-title">GeoGR²: Zero-Shot Geospatial Inference via Geostatistically-Guided Iterative Refinement with LLMs</div>
+              <a class="pub-title" href="https://aclanthology.org/2026.findings-emnlp.310/" target="_blank" rel="noopener">GeoGR²: Zero-Shot Geospatial Inference via Geostatistically-Guided Iterative Refinement with LLMs<span class="arrow" aria-hidden="true">↗</span></a>
               <div class="pub-meta">
                 <span class="badge co"><span class="zh">共同一作</span><span class="en">Co-first author</span></span>
                 <span class="venue">EMNLP Findings</span>
