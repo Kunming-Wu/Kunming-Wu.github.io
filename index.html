@@ -438,6 +438,23 @@
       }
       ul.plain > li strong { color: var(--text); font-weight: 620; }
 
+      .repo-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 14px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--accent);
+      }
+      .repo-link:hover { color: var(--accent-ink); }
+      .repo-link .arrow {
+        font-size: 0.82em;
+        color: var(--text-mute);
+        transition: transform 0.15s ease, color 0.15s ease;
+      }
+      .repo-link:hover .arrow { color: var(--accent); transform: translate(2px, -2px); }
+
       /* ---------------- Publications ---------------- */
       .pub-group + .pub-group { margin-top: 34px; }
 
@@ -985,6 +1002,29 @@
           <span class="idx">03</span>
           <h2><span class="zh">项目经历</span><span class="en">Projects</span></h2>
         </div>
+
+        <article class="card">
+          <div class="entry-head">
+            <div class="entry-title">
+              <span class="zh">GPU-Bider：面向共享显卡的排队与协作调度工具</span>
+              <span class="en">GPU-Bider: A Polite Queue &amp; Co-Scheduling Tool for Shared GPUs</span>
+            </div>
+            <span class="date">2026</span>
+          </div>
+          <div class="entry-sub">
+            <span class="zh">自用工具 · 已在校内实验室投入使用</span>
+            <span class="en">Personal tool · in use in the lab</span>
+          </div>
+
+          <ul class="plain">
+            <li>
+              <span class="zh">针对实验室多卡服务器上显卡常因排队与人工等待而闲置的问题，设计并实现一个轻量的显卡排队调度 Agent：以“只等卡、不碰他人进程”为原则，自动维护待跑实验队列并估算显存与算力需求，在他人任务结束后自动触发下一项实验；同时支持记录组内协作约定（他人临近 deadline 主动避让、特定时段预留资源），使调度可随实际情况调整。开发过程借助 Coding Agent 迭代完成。该工具已在校内实验室投入使用，个人平均可用卡数由 3 张提升至 5 张；在组内小范围测试中，显卡利用率由不足 60% 提升至 77%。</span>
+              <span class="en">To stop lab GPU servers from sitting idle while jobs queue behind manual waiting, built a lightweight GPU job-queue scheduling agent around one rule — wait for the card, never touch anyone else's process. It maintains a pending-experiment queue, estimates memory and compute needs, and launches the next job automatically once another user's run finishes; it also records team collaboration conventions (yielding near someone's deadline, reserving cards in certain time windows) so scheduling adapts to real conditions. The implementation was iterated on with a coding agent. The tool is now in use in the lab: my own average usable cards went from 3 to 5, and in small-scale group testing, GPU utilization rose from under 60% to 77%.</span>
+            </li>
+          </ul>
+
+          <a class="repo-link" href="https://github.com/Kunming-Wu/gpu-bider" target="_blank" rel="noopener noreferrer">github.com/Kunming-Wu/gpu-bider<span class="arrow" aria-hidden="true">↗</span></a>
+        </article>
 
         <article class="card">
           <div class="entry-head">
